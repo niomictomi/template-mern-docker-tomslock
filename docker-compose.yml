@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  react:
+    build:
+      context: ./frontend
+      dockerfile: Frontend.dockerfile
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    ports:
+      - 3003:3003
+    environment:
+      - WATCHPACK_POLLING=true
+    depends_on:
+      - node
+  node:
+    build:
+      context: ./backend
+      dockerfile: Backend.Dockerfile
+    ports:
+      - 5001:5001
+    volumes:
+      - ./backend:/backend:rw
+      - /backend/node_modules
+    environment:
+      - PORT=5001
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - 27019:27019
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongoDB:/data/db
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+volumes:
+  nodeVolume:
+  mongoDB:
