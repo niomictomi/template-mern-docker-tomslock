@@ -10,7 +10,7 @@ import session from "express-session";
 import { createClient } from "redis";
 import RedisStore from "connect-redis";
 
-import requireAuth from "./moddleware/requireAuthMiddleware.js";
+import requireAuth from "./middleware/requireAuthMiddleware.js";
 import Authentication from "./routes/auth/AuthRoute.js";
 import UsersRoute from "./routes/system/UsersRoute.js";
 import ArticlesRoute from "./routes/system/ArticlesRoute.js";
@@ -21,7 +21,6 @@ const corsConfig = {
   credentials: true,
   origin: process.env.FRONT_END_URL,
 };
-
 
 const app = express();
 app.use(cors(corsConfig));
@@ -43,6 +42,7 @@ const connectDB = async () => {
 connectDB();
 
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
@@ -104,7 +104,6 @@ app.get("/welcome", function (req, res) {
   res.json("Welcome to the Systems " + process.env.FRONT_END_URL + " ---- Session user: "+req.session.user.name);
 });
 
-
 app.use(UsersRoute);
 app.use(ArticlesRoute);
 
@@ -120,8 +119,6 @@ app.all("*", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(
-    `\n----------------------------------------------------\n` +
-    `             SERVER IS RUNNING ON PORT ${PORT}\n` +
-    `----------------------------------------------------`
+    `SERVER IS RUNNING ON PORT ${PORT}`
   );
 });
