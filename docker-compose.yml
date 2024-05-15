@@ -8,7 +8,7 @@ services:
       - ./frontend:/frontend
       - /frontend/node_modules
     ports:
-      - 3003:3003
+      - 3003:3000
     environment:
       - WATCHPACK_POLLING=true
     depends_on:

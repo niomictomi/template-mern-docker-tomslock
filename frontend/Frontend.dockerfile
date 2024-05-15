@@ -7,6 +7,6 @@ COPY package.json /frontend
 RUN npm install
 COPY . /frontend
 
-EXPOSE 3003
+EXPOSE 3000
 # Starting the react app
 CMD [ "npm", "start"]

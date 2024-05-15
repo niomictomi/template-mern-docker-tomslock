@@ -26,7 +26,7 @@ const corsConfig = {
 const app = express();
 app.use(cors(corsConfig));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 const MONGO_URI = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@mongo:27019`;
 
@@ -52,8 +52,7 @@ const redisClient = createClient({
   url: "redis://redis:6379",
 });
 
-redisClient
-.connect()
+redisClient.connect()
 .then(() => console.log("Redis connected successfully"))
 .catch((e) => {
   console.error("Redis connection failed:", e.message);
